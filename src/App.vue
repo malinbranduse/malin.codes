@@ -43,12 +43,12 @@
         }
     ];
 
-    socials.map(s => axios
-        .get(`/src/assets/svg/${s.name}.svg`)
-        .then(svg => {
-            s.svg = svg.data;
-        })
-        .catch(e => console.log(e)));
+    for (let i = 0; i < socials.length; i++)
+        axios.get(`/src/assets/svg/${socials[i].name}.svg`)
+            .then(svg => {
+                socials[i].svg = svg.data;
+            })
+            .catch(e => console.log(e));
 
     export default {
         name: 'app',
