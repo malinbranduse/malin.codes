@@ -28,37 +28,36 @@
 <script>
     import axios from 'axios';
 
-    let socials = [
-        {
-            name: 'github',
-            url: 'https://github.com/malinushj'
-        },
-        {
-            name: 'quora',
-            url: 'https://www.quora.com/profile/M%C4%83lin-Br%C3%A2ndu%C5%9Fe'
-        },
-        {
-            name: 'linkedin',
-            url: 'https://www.linkedin.com/in/malinbranduse/'
-        }
-    ];
-
-    for (let i = 0; i < socials.length; i++)
-        axios.get(`/src/assets/svg/${socials[i].name}.svg`)
-            .then(svg => {
-                socials[i].svg = svg.data;
-            })
-            .catch(e => console.log(e));
-
     export default {
         name: 'app',
         data() {
             return {
                 logo: '',
-                socials: socials
+                socials: [
+                    {
+                        name: 'github',
+                        url: 'https://github.com/malinushj'
+                    },
+                    {
+                        name: 'quora',
+                        url: 'https://www.quora.com/profile/M%C4%83lin-Br%C3%A2ndu%C5%9Fe'
+                    },
+                    {
+                        name: 'linkedin',
+                        url: 'https://www.linkedin.com/in/malinbranduse/'
+                    }
+                ]
             }
         },
         created() {
+            for (let i = 0; i < this.socials.length; i++)
+                axios.get(`/src/assets/svg/${this.socials[i].name}.svg`)
+                    .then(svg => {
+                        this.socials[i].svg = svg.data;
+                        console.log(this.socials[i]);
+                    })
+                    .catch(e => console.log(e));
+
             axios.get('/src/assets/svg/logo.svg')
                 .then(svg => {
                     this.logo = svg.data;
