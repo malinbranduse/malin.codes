@@ -55,6 +55,7 @@
                     .then(svg => {
                         this.socials[i].svg = svg.data;
                         console.log(this.socials[i]);
+                        this.$forceUpdate();
                     })
                     .catch(e => console.log(e));
 
@@ -148,8 +149,7 @@
     }
 
     .bg {
-        background: rgba(#fff, 0.8);
-        box-shadow: 2px 3px 10px rgba(#000, 0.2);
+        background: rgba(#fff, 0.4);
     }
 
     .wrapper {
@@ -189,6 +189,11 @@
 
         a {
             display: block;
+            transition: .2s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
         svg {
             width: 30px;
