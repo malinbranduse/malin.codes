@@ -9,6 +9,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "normalize.css": "^7.0.0",
+    "timeago.js": "^3.0.2",
     "vue": "^2.4.1"
   },
   "devDependencies": {

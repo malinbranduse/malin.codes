@@ -1,32 +1,36 @@
 <template>
-    <div itemscope itemtype="http://schema.org/WebPage">
+    <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{ paddingTop: nav.windowHeight + 'px' }">
 
-        <section class="main-content">
+        <section class="main-content" :style="nav.navStyle">
             <div class="main-content__container">
 
                 <div v-html="logo" class="logo"></div>
 
+                <ul class="socials" :style="{ opacity: nav.socialOpacity }">
+                    <li v-for="social in socials" class="social">
+                        <a target="_blank" :href="social.url" v-html="social.svg" :class="social.name"></a>
+                    </li>
+                </ul>
+
                 <div class="wrapper bg">
 
-                    <h1>Hello there</h1>
+                    <h1>Hello there!</h1>
 
                     <p itemprop="author" itemscope itemtype="http://schema.org/Person">
                         I'm <span itemprop="name">Mălin Brândușe</span>, a {{getAge('1997/11/13')}}yr old
                     <span itemprop="jobTitle">Web Developer</span> from <span itemprop="workLocation">Romania</span>
                     </p>
 
-                    <ul class="socials">
-                        <li v-for="social in socials" class="social">
-                            <a target="_blank" :href="social.url" v-html="social.svg" :class="social.name"></a>
-                        </li>
-                    </ul>
 
+                    <div class="arrow bounce">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="451.847" height="451.847" viewBox="0 0 451.847 451.847"><path d="M225.923 354.706c-8.098 0-16.195-3.092-22.37-9.263L9.27 151.157c-12.36-12.36-12.36-32.397 0-44.75 12.354-12.355 32.388-12.355 44.748 0L225.923 278.32 397.83 106.413c12.358-12.354 32.39-12.354 44.743 0 12.365 12.354 12.365 32.392 0 44.75L248.293 345.45c-6.178 6.17-14.275 9.256-22.37 9.256z"/></svg>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section>
-
+        <section class="content-wrapper">
+            <app-content></app-content>
         </section>
 
     </div>
@@ -34,112 +38,147 @@
 
 <script>
     import axios from 'axios';
+    import Content from './Content.vue'
+
+    let svgs = [
+        {
+            name: 'github',
+            url: 'https://github.com/malinushj'
+        },
+        {
+            name: 'quora',
+            url: 'https://www.quora.com/profile/M%C4%83lin-Br%C3%A2ndu%C5%9Fe'
+        },
+        {
+            name: 'linkedin',
+            url: 'https://www.linkedin.com/in/malinbranduse/'
+        }
+    ];
 
     export default {
         name: 'app',
+        components: {
+            appContent: Content
+        },
         data() {
             return {
                 logo: '',
-                socials: [
-                    {
-                        name: 'github',
-                        url: 'https://github.com/malinushj'
-                    },
-                    {
-                        name: 'quora',
-                        url: 'https://www.quora.com/profile/M%C4%83lin-Br%C3%A2ndu%C5%9Fe'
-                    },
-                    {
-                        name: 'linkedin',
-                        url: 'https://www.linkedin.com/in/malinbranduse/'
+                socials: svgs,
+                nav: {
+                    windowHeight: window.innerHeight,
+                    targetHeight: 100,
+                    socialOpacity: 0,
+                    navStyle: {
+                        height: ''
                     }
-                ]
+                }
             }
         },
         created() {
-            for (let i = 0; i < this.socials.length; i++)
-                axios.get(`/src/assets/svg/${this.socials[i].name}.svg`)
-                    .then(svg => {
-                        this.socials[i].svg = svg.data;
-                        this.$forceUpdate();
-                    })
-                    .catch(e => console.log(e));
-
-            axios.get('/src/assets/svg/logo-color.svg')
-                .then(svg => {
-                    this.logo = svg.data;
-                })
-                .catch(e => console.log(e));
-            this.$forceUpdate();
+            this.setSVG();
+            this.removeLoader();
+            this.setNavHeight();
+            this.setResizeHeight();
+            window.addEventListener('scroll', this.setNavHeight.bind(self));
         },
         methods: {
+            setSVG() {
+                let self = this;
+                for (let i = 0; i < this.socials.length; i++)
+                    axios.get(`/src/assets/svg/${this.socials[i].name}.svg`)
+                        .then(svg => {
+                            self.socials[i].svg = svg.data;
+                            self.$forceUpdate();
+                        })
+                        .catch(e => console.log(e));
+
+                axios.get('/src/assets/svg/logo-color.svg')
+                    .then(svg => {
+                        self.logo = svg.data;
+                    })
+                    .catch(e => console.log(e));
+                this.$forceUpdate();
+            },
+            removeLoader() {
+                let loader = document.getElementById('loader');
+                if (loader !== null) {
+                    loader.className = 'hidden';
+                    'webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend'.split(' ')
+                        .map(name => loader.addEventListener(name, () => loader.parentNode.removeChild(loader), false));
+                }
+            },
             getAge(dateString) {
-                var today = new Date();
-                var birthDate = new Date(dateString);
-                var age = today.getFullYear() - birthDate.getFullYear();
-                var m = today.getMonth() - birthDate.getMonth();
+                let today = new Date(),
+                    birthDate = new Date(dateString),
+                    age = today.getFullYear() - birthDate.getFullYear(),
+                    m = today.getMonth() - birthDate.getMonth();
                 if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
                 return age;
+            },
+            setNavHeight() {
+                let height = innerHeight - pageYOffset <= this.nav.targetHeight ?
+                    this.nav.targetHeight : innerHeight - pageYOffset,
+                    progress = this.nav.targetHeight / height;
+                this.nav.socialOpacity = progress * 2 - 1;
+                this.nav.navStyle.height = `${height}px`;
+            },
+            setResizeHeight() {
+                let self = this;
+                window.addEventListener('resize', function(){
+                    self.nav.windowHeight = window.innerHeight;
+                })
             }
         }
     }
 </script>
 
 <style lang="sass">
-    @import './sass/mixins'
-
-    html, body
-        margin: 0
-        font-family: 'Fira Sans', sans-serif;
-
+    @import '../node_modules/normalize.css/normalize'
 
     $color: #424242
     $color-links: #0d355a
 
-    .main-content
+    @import './sass/mixins'
+    @import './sass/loader'
+    @import './sass/header'
+
+    html, body
+        padding: 0
+        font-family: 'Fira Sans', sans-serif
+
+    body
+        color: $color
         -webkit-font-smoothing: antialiased
         -moz-osx-font-smoothing: grayscale
-        text-align: center
-        color: $color
-        display: block
-        height: 100vh
-        font-size: 0
-
         +main-bg(#51e4d6, #2ce8fb)
 
-        &:before
-            content: ''
-            display: inline-block
-            vertical-align: middle
-            height: 100%
+    h1, h2, h3
+        font-family: 'Lora', serif
 
-        &__container
-            display: inline-block
-            vertical-align: middle
-            text-align: left
-            font-size: 20px
-            width: 100%
-            max-width: 600px
+    .content-wrapper
+        width: 100%
+        max-width: 1200px
+        padding: 60px
+        background: #fff
+        margin: 0 auto
 
-            @media (max-width: 600px)
-                font-size: 14px
+        @media (max-width: 600px)
+            padding: 20px 30px
 
-    .bg
-        //background: rgba(#fff, 0.4)
-        border: 4px solid rgba(#fff, 0.4)
+    .padded
+        padding-top: 100vh
 
 
     .wrapper
         padding: 20px 30px
 
     h1
-        font-family: 'Lora', serif
         font-size: 60px
         line-height: 1
         font-weight: 300
-        margin-bottom: 0
+        margin: 20px 0
 
         @media (max-width: 600px)
             font-size: 42px
@@ -147,13 +186,17 @@
     p
         font-size: 18px
         font-weight: 500
+        margin: 20px 0
         span
             font-weight: 900
 
     .socials
+        position: absolute
+        top: 0
+        right: 0
         list-style-type: none
         padding: 0
-        margin-top: 40px
+        margin-top: 35px
 
     .social
         display: inline-block
@@ -174,10 +217,11 @@
     .logo svg
         width: 100px
         height: 100px
-        padding: 10px 30px
+        padding: 0 30px
 
         @media (max-width: 600px)
             width: 80px
             height: 80px
+            padding: 10px 30px
 
 </style>

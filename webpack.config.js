@@ -78,4 +78,12 @@ if (process.env.NODE_ENV === 'production') {
 
         })
     ])
+} else {
+    var fs = require('fs'),
+        file = 'styles.min.css',
+        path = path.resolve(__dirname, './dist/');
+    fs.writeFile(`${path}/${file}`, '', function(e){
+        if (e) throw e;
+        console.log(file + ' emptied for development');
+    });
 }
