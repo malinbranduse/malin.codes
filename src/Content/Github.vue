@@ -15,14 +15,14 @@
     import timeago from 'timeago.js';
 
     const username = 'malinushj';
-    const token = '03a166dd2b0e2bf32daa4ded68df2d5c84638870';
+    const auth = 'bWFsaW51c2hqOmMwMGU2MDY5M2YyNGQzNWY1MTEzMzg4ZGRlMjQyZWM2ZjcwOWY0MzU=';
     const githubApi = 'https://api.github.com/';
     const reposPath = `user/repos`;
     const commitsPath = `repos/${username}`;
 
     const github = axios.create({
         baseURL: githubApi,
-        headers: { 'Authorization': `Basic ${btoa(username +':' + token)}` }
+        headers: { 'Authorization': `Basic ${auth}` }
     });
 
     export default {
