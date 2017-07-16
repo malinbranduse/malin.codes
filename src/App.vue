@@ -1,10 +1,10 @@
 <template>
-    <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{ paddingTop: nav.windowHeight + 'px' }">
+    <div itemscope itemtype="http://schema.org/WebPage" class="padded">
 
         <header class="header" :style="nav.navStyle">
             <div class="header__container">
 
-                <div v-html="logo" class="logo"></div>
+                <div v-html="logo" class="logo" :class="{'small': nav.isNav}"></div>
 
                 <ul class="socials" :style="{ opacity: nav.socialOpacity }">
                     <li v-for="social in socials" class="social">
@@ -67,8 +67,8 @@
                 logo: '',
                 socials: svgs,
                 nav: {
-                    windowHeight: window.innerHeight,
-                    targetHeight: 100,
+                    isNav: false,
+                    targetHeight: 70,
                     socialOpacity: 0,
                     navStyle: {
                         height: ''
@@ -122,6 +122,7 @@
                 let height = innerHeight - pageYOffset <= this.nav.targetHeight ?
                     this.nav.targetHeight : innerHeight - pageYOffset;
                 this.nav.socialOpacity = this.nav.targetHeight / height * 2 - 1;
+                this.nav.isNav = this.nav.targetHeight / height > 0.8;
                 this.nav.navStyle.height = `${height}px`;
             },
             bindSetNavHeight() {
@@ -140,11 +141,7 @@
                         rAF(loop);
                         return false;
                     } else lastPosition = window.pageYOffset;
-
-                    console.log('called');
-
                     self.setNavHeight.call(self);
-
                     rAF( loop );
                 }
                 loop();
@@ -187,12 +184,12 @@
     .content-wrapper
         width: 100%
         max-width: 1000px
-        padding: 60px 20px
+        padding: 40px 20px
         background: #fff
         margin: 0 auto
 
     .padded
-        padding-top: 100vh
+        padding-top: 95vh
 
 
     .wrapper
@@ -208,6 +205,18 @@
 
         @media (max-width: 600px)
             font-size: 42px
+
+    h2
+        font-size: 40px
+        margin-top: 30px
+        margin-bottom: 20px
+
+        @media (max-width: 600px)
+            font-size: 30px
+            margin-top: 20px
+            margin-bottom: 10px
+        @media (max-width: 425px)
+            font-size: 26px
 
     p
         font-size: 18px
@@ -234,7 +243,7 @@
         right: 0
         list-style-type: none
         padding: 0
-        margin-top: 35px
+        margin-top: 23px
         margin-right: 10px
 
     .social
@@ -249,18 +258,22 @@
                 svg
                     fill: lighten($color-links, 10%)
         svg
-            width: 30px
-            height: 30px
+            width: 26px
+            height: 26px
             fill: $color
 
-    .logo svg
-        width: 150px
-        height: 100px
-        padding: 0 30px
+    .logo
+        transition: .2s ease
+        transform-origin: 0 0
+        &.small
+            transform: scale(0.85)
+        svg
+            width: 150px
+            height: 80px
+            padding: 0 30px
 
-        @media (max-width: 600px)
-            width: 120px
-            height: 100px
-            padding: 10px 20px
+            @media (max-width: 600px)
+                width: 120px
+                padding: 0 20px
 
 </style>
