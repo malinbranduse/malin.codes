@@ -1,8 +1,8 @@
 <template>
     <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{ paddingTop: nav.windowHeight + 'px' }">
 
-        <section class="main-content" :style="nav.navStyle">
-            <div class="main-content__container">
+        <header class="header" :style="nav.navStyle">
+            <div class="header__container">
 
                 <div v-html="logo" class="logo"></div>
 
@@ -13,6 +13,8 @@
                 </ul>
 
                 <div class="wrapper bg">
+
+                    <img class="me" src="src/assets/me.gif" alt="Me">
 
                     <h1>Hello there!</h1>
 
@@ -27,7 +29,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </header>
 
         <section class="content-wrapper">
             <app-content></app-content>
@@ -77,9 +79,8 @@
         created() {
             this.setSVG();
             this.removeLoader();
-            this.setNavHeight();
+            this.bindSetNavHeight();
             this.setResizeHeight();
-            window.addEventListener('scroll', this.setNavHeight.bind(self));
         },
         methods: {
             setSVG() {
@@ -119,10 +120,34 @@
             },
             setNavHeight() {
                 let height = innerHeight - pageYOffset <= this.nav.targetHeight ?
-                    this.nav.targetHeight : innerHeight - pageYOffset,
-                    progress = this.nav.targetHeight / height;
-                this.nav.socialOpacity = progress * 2 - 1;
+                    this.nav.targetHeight : innerHeight - pageYOffset;
+                this.nav.socialOpacity = this.nav.targetHeight / height * 2 - 1;
                 this.nav.navStyle.height = `${height}px`;
+            },
+            bindSetNavHeight() {
+                let self = this;
+                let rAF = window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    // IE Fallback, you can even fallback to onscroll
+                    function(callback){ window.setTimeout(callback, 1000/60) };
+                let lastPosition = -1;
+                function loop(){
+                    // Avoid calculations if not needed
+                    if (lastPosition === window.pageYOffset) {
+                        rAF(loop);
+                        return false;
+                    } else lastPosition = window.pageYOffset;
+
+                    console.log('called');
+
+                    self.setNavHeight.call(self);
+
+                    rAF( loop );
+                }
+                loop();
             },
             setResizeHeight() {
                 let self = this;
@@ -144,28 +169,27 @@
     @import './sass/loader'
     @import './sass/header'
 
-    html, body
+    html, body, *
         padding: 0
+        margin: 0
+        box-sizing: border-box
         font-family: 'Fira Sans', sans-serif
 
     body
         color: $color
         -webkit-font-smoothing: antialiased
         -moz-osx-font-smoothing: grayscale
-        +main-bg(#51e4d6, #2ce8fb)
+        //+main-bg(#51e4d6, #2ce8fb)
 
     h1, h2, h3
         font-family: 'Lora', serif
 
     .content-wrapper
         width: 100%
-        max-width: 1200px
-        padding: 60px
+        max-width: 1000px
+        padding: 60px 20px
         background: #fff
         margin: 0 auto
-
-        @media (max-width: 600px)
-            padding: 20px 30px
 
     .padded
         padding-top: 100vh
@@ -173,6 +197,8 @@
 
     .wrapper
         padding: 20px 30px
+        @media (max-width: 600px)
+            padding: 20px
 
     h1
         font-size: 60px
@@ -189,6 +215,18 @@
         margin: 20px 0
         span
             font-weight: 900
+    a
+        text-decoration: none;
+        color: $color
+        transition: .12s ease
+        &:hover
+            color: $color-links
+
+    .me
+        width: 100px
+        height: 100px
+        border-radius: 30%
+        overflow: hidden
 
     .socials
         position: absolute
@@ -197,6 +235,7 @@
         list-style-type: none
         padding: 0
         margin-top: 35px
+        margin-right: 10px
 
     .social
         display: inline-block
@@ -204,7 +243,7 @@
         margin: 0 10px
         a
             display: block
-            transition: .2s ease
+            transition: .12s ease
             &:hover
                 transform: scale(1.1)
                 svg
@@ -212,16 +251,16 @@
         svg
             width: 30px
             height: 30px
-            fill: lighten($color, 10%)
+            fill: $color
 
     .logo svg
-        width: 100px
+        width: 150px
         height: 100px
         padding: 0 30px
 
         @media (max-width: 600px)
-            width: 80px
-            height: 80px
-            padding: 10px 30px
+            width: 120px
+            height: 100px
+            padding: 10px 20px
 
 </style>

@@ -2,10 +2,9 @@
     <div class="github">
         <h2>{{ title }}</h2>
         <div class="commit">
-            <a :href="repo.url" target="_blank">{{ repo.sha }}</a>
-            <p>"{{ repo.message }}" on</p>
-            <a :href="repo.repoUrl" target="_blank">{{ repo.name }}</a>
-            <p>{{ repo.date }}</p>
+            <div class="icon"><svg aria-hidden="true" class="octicon octicon-git-commit" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg></div>
+            <a :href="repo.url" target="_blank"><strong>{{ repo.message }}</strong></a>
+            <p>{{ repo.date }} on <a :href="repo.repoUrl" target="_blank">{{ repo.name }}</a></p>
         </div>
     </div>
 </template>
@@ -55,7 +54,6 @@
                 })
                 .then(() => github.get(`${commitsPath}/${lastRepo.name}/commits`))
                 .then(response => {
-                    console.log(response.data[0]);
                     self.repo.name = lastRepo.name;
                     self.repo.repoUrl = lastRepo.url;
                     self.repo.message = response.data[0].commit.message;
@@ -74,7 +72,30 @@
     $color-links: #0d355a
 
     .commit
-        a, p
+        display: inline-block
+        margin: 10px 0
+        padding: 20px 30px
+        background: rgba(#000, 0.04)
+        .icon
             display: inline-block
+            height: 100%
+            margin-right: 5px
+            margin-left: -10px
+            svg
+                height: 100%
+        a, p
+            margin: 0
+        strong
+            font-size: 1.5em
+        a
+            display: inline-block
+            margin-bottom: 5px
+        p
+            margin-left: 13px
+            a
+                margin: 0
+                text-decoration: underline
+
+
 
 </style>

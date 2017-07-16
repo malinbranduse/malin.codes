@@ -27,4 +27,7 @@
     $color: #424242
     $color-links: #0d355a
 
+    h2
+        font-size: 2.5em
+        margin-bottom: .5em
 </style>
