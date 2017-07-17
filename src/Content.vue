@@ -14,7 +14,7 @@
         data() {
             return {
                 titles: {
-                    github: 'Latest commit',
+                    github: 'Latest pieces of code written',
                     medium: 'Read one of my stories'
                 }
             }

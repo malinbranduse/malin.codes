@@ -1,12 +1,12 @@
 <template>
     <div class="github">
         <h2>{{ title }}</h2>
-        <div class="commit">
-            <a :href="repo.url" target="_blank">
+        <div class="commit" v-for="commit in commits">
+            <a :href="commit.url" target="_blank">
                 <div class="icon"><svg aria-hidden="true" class="octicon octicon-git-commit" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg></div>
-                <strong>{{ repo.message }}</strong>
+                <strong>{{ commit.message }}</strong>
             </a>
-            <p>{{ repo.date }} on <a :href="repo.repoUrl" target="_blank">{{ repo.name }}</a></p>
+            <p>{{ commit.date }} on <a :href="commit.repoUrl" target="_blank">{{ commit.name }}</a></p>
         </div>
     </div>
 </template>
@@ -30,38 +30,39 @@
         props: ['title'],
         data() {
             return {
-                repo: {
-                    message: '',
-                    name: '',
-                    date: '',
-                    sha: '',
-                    url: '',
-                    repoUrl: ''
-                }
+                commits: []
             }
         },
         created() {
             let self = this,
                 repos = [],
-                lastRepo = '';
+                lastRepos = [];
 
             github.get(reposPath)
                 .then(response => {
                     response.data.map(e => {
                         repos.push({ name: e.name, url: e.html_url, pushed_at: e.pushed_at });
                     });
-                    lastRepo = repos
+                    lastRepos = repos
                         .sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at))
-                        .slice(0,1)[0];
+                        .slice(0,3);
                 })
-                .then(() => github.get(`${commitsPath}/${lastRepo.name}/commits`))
+                .then(() =>
+                    axios.all(lastRepos.reduce((a, r) =>
+                        a.concat(github.get(`${commitsPath}/${r.name}/commits`))
+                        ,[]))
+                )
                 .then(response => {
-                    self.repo.name = lastRepo.name;
-                    self.repo.repoUrl = lastRepo.url;
-                    self.repo.message = response.data[0].commit.message;
-                    self.repo.sha = response.data[0].sha.substring(0, 7);
-                    self.repo.url = response.data[0].html_url;
-                    self.repo.date = timeago().format(response.data[0].commit.author.date);
+                    response.map((r, i) => {
+                        self.commits.push({
+                            name: lastRepos[i].name,
+                            repoUrl: lastRepos[i].url,
+                            message: r.data[0].commit.message,
+                            sha: r.data[0].sha.substring(0, 7),
+                            url: r.data[0].html_url,
+                            date: timeago().format(r.data[0].commit.author.date)
+                        });
+                    });
                 })
                 .catch(e => console.log(e));
         }
@@ -75,8 +76,13 @@
     .commit
         display: inline-block
         margin: 10px 0
+        margin-right: 20px
         padding: 20px 40px
         background: rgba(#000, 0.04)
+        @media (max-width: 600px)
+            width: 100%
+            margin: 10px 0
+
         .icon
             position: absolute
             left: -15px

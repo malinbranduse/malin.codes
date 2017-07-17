@@ -39,8 +39,12 @@
 </template>
 
 <script>
+    require('es6-promise').polyfill();
     import axios from 'axios';
     import Content from './Content.vue'
+
+    import objectFitImages from 'object-fit-images';
+    objectFitImages();
 
     let svgs = [
         {
@@ -181,16 +185,22 @@
     h1, h2, h3
         font-family: 'Lora', serif
 
+    img
+        &.cover
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+            font-family: 'object-fit: cover;'
+
     .content-wrapper
         width: 100%
-        max-width: 1000px
+        max-width: 800px
         padding: 40px 20px
         background: #fff
         margin: 0 auto
 
     .padded
-        padding-top: 95vh
-
+        padding-top: 100vh
 
     .wrapper
         padding: 20px 30px
