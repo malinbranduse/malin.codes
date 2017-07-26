@@ -1,7 +1,7 @@
 <template>
-    <div itemscope itemtype="http://schema.org/WebPage" class="padded">
+    <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{'padding-top': nav.pageHeight + 'px'}">
 
-        <header class="header" :style="nav.navStyle">
+        <header class="header" :class="{'sticky': nav.isNav}" :style="nav.navStyle">
             <div class="header__container">
 
                 <div v-html="logo" class="logo" :class="{'small': nav.isNav}"></div>
@@ -31,9 +31,11 @@
             </div>
         </header>
 
-        <section class="content-wrapper">
-            <app-content></app-content>
-        </section>
+        <div class="white" v-show="isLoaded">
+            <section class="content-wrapper">
+                <app-content></app-content>
+            </section>
+        </div>
 
     </div>
 </template>
@@ -42,8 +44,9 @@
     require('es6-promise').polyfill();
     import axios from 'axios';
     import Content from './Content.vue'
-
     import objectFitImages from 'object-fit-images';
+    import { EventBus } from './event-bus';
+
     objectFitImages();
 
     let svgs = [
@@ -61,6 +64,17 @@
         }
     ];
 
+    let expectedLoad = {
+        github: false,
+        medium: false
+    };
+
+    EventBus.$on('loaded', who => {
+        Object.keys(expectedLoad).forEach( key => {
+            expectedLoad[key] = who === key || expectedLoad[key];
+        })
+    });
+
     export default {
         name: 'app',
         components: {
@@ -70,8 +84,10 @@
             return {
                 logo: '',
                 socials: svgs,
+                expectedLoad: expectedLoad,
                 nav: {
                     isNav: false,
+                    pageHeight: innerHeight,
                     targetHeight: 70,
                     socialOpacity: 0,
                     navStyle: {
@@ -79,6 +95,11 @@
                     }
                 }
             }
+        },
+        computed: {
+            isLoaded: () =>
+                Object.keys(expectedLoad)
+                    .every( key => expectedLoad[key])
         },
         created() {
             this.setSVG();
@@ -104,12 +125,15 @@
                     .catch(e => console.log(e));
                 this.$forceUpdate();
             },
+            loaded(who) {
+
+            },
             removeLoader() {
                 let loader = document.getElementById('loader');
                 if (loader !== null) {
                     loader.className = 'hidden';
                     'webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend'.split(' ')
-                        .map(name => loader.addEventListener(name, () => loader.parentNode.removeChild(loader), false));
+                        //.map(name => loader.addEventListener(name, () => loader.parentNode.removeChild(loader), false));
                 }
             },
             getAge(dateString) {
@@ -123,8 +147,8 @@
                 return age;
             },
             setNavHeight() {
-                let height = innerHeight - pageYOffset <= this.nav.targetHeight ?
-                    this.nav.targetHeight : innerHeight - pageYOffset;
+                let height = this.nav.pageHeight - pageYOffset <= this.nav.targetHeight ?
+                    this.nav.targetHeight : this.nav.pageHeight - pageYOffset;
                 this.nav.socialOpacity = this.nav.targetHeight / height * 2 - 1;
                 this.nav.isNav = this.nav.targetHeight / height > 0.8;
                 this.nav.navStyle.height = `${height}px`;
@@ -167,7 +191,7 @@
     $color-links: #0d355a
 
     @import './sass/mixins'
-    @import './sass/loader'
+    //@import './sass/loader'
     @import './sass/header'
 
     html, body, *
@@ -198,6 +222,8 @@
         padding: 40px 20px
         background: #fff
         margin: 0 auto
+        position: relative
+        z-index: 9999
 
     .padded
         padding-top: 100vh
@@ -206,6 +232,10 @@
         padding: 20px 30px
         @media (max-width: 600px)
             padding: 20px
+
+    .white
+        background: #fff
+        z-index: 999
 
     h1
         font-size: 60px

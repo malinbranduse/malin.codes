@@ -27,7 +27,7 @@
     import axios from 'axios';
     import timeago from 'timeago.js';
     import readingTime from 'reading-time';
-
+    import { EventBus } from '../event-bus';
 
     let mediumURL = 'https://medium.com/',
         publication = 'malin-codes/',
@@ -65,8 +65,10 @@
                             readingTime: readingTime(doc.documentElement.textContent.replace(/\r?\n|\r/g, ''))
                         });
                     });
+
+                    EventBus.$emit('loaded', 'medium');
                 })
-                .catch(e => console.log(e));
+                .catch(e => (console.log(e), EventBus.$emit('loaded', 'medium')));
         }
     }
 </script>

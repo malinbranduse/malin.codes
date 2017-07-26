@@ -7,12 +7,15 @@
   height: 100vh
   text-align: center
   font-size: 0
-  z-index: 1000;
+  z-index: 100;
   overflow: hidden
   transform: translate3d(0,0,0)
   -moz-transform: translate3d(0,0,0)
   -webkit-transform: translate3d(0,0,0)
   +main-bg(#51e4d6, #2ce8fb)
+
+  &.sticky
+    z-index: 99999
 
   &:before
     content: ''

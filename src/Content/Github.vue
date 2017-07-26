@@ -14,6 +14,7 @@
 <script>
     import axios from 'axios';
     import timeago from 'timeago.js';
+    import { EventBus } from '../event-bus.js';
 
     const username = 'malinushj';
     const auth = 'bWFsaW51c2hqOmMwMGU2MDY5M2YyNGQzNWY1MTEzMzg4ZGRlMjQyZWM2ZjcwOWY0MzU=';
@@ -63,8 +64,9 @@
                             date: timeago().format(r.data[0].commit.author.date)
                         });
                     });
+                    EventBus.$emit('loaded', 'github');
                 })
-                .catch(e => console.log(e));
+                .catch(e => (console.log(e), EventBus.$emit('loaded', 'github')));
         }
     }
 </script>
