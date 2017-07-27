@@ -133,7 +133,7 @@
                 if (loader !== null) {
                     loader.className = 'hidden';
                     'webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend'.split(' ')
-                        //.map(name => loader.addEventListener(name, () => loader.parentNode.removeChild(loader), false));
+                        .map(name => loader.addEventListener(name, () => loader.parentNode.removeChild(loader), false));
                 }
             },
             getAge(dateString) {
