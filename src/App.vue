@@ -1,42 +1,45 @@
 <template>
-    <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{'padding-top': nav.pageHeight + 'px'}">
+    <div id="app">
+        <div itemscope itemtype="http://schema.org/WebPage" class="padded" :style="{'padding-top': nav.pageHeight + 'px'}">
 
-        <header class="header" :class="{'sticky': nav.isNav}" :style="nav.navStyle">
-            <div class="header__container">
+            <header class="header" :class="{'sticky': nav.isNav}" :style="nav.navStyle">
+                <div class="header__container">
 
-                <div v-html="logo" class="logo" :class="{'small': nav.isNav}"></div>
+                    <div v-html="logo" class="logo" :class="{'small': nav.isNav}"></div>
 
-                <ul class="socials" :style="{ opacity: nav.socialOpacity }">
-                    <li v-for="social in socials" class="social">
-                        <a target="_blank" :href="social.url" v-html="social.svg" :class="social.name"></a>
-                    </li>
-                </ul>
+                    <ul class="socials" :style="{ opacity: nav.socialOpacity }">
+                        <li v-for="social in socials" class="social">
+                            <a target="_blank" :href="social.url" v-html="social.svg" :class="social.name"></a>
+                        </li>
+                    </ul>
 
-                <div class="wrapper bg">
+                    <div class="wrapper bg">
 
-                    <img class="me" src="src/assets/me.gif" alt="Me">
+                        <img class="me" src="src/assets/me.gif" alt="Me">
 
-                    <h1>Hello there!</h1>
+                        <h1>Hello there!</h1>
 
-                    <p itemprop="author" itemscope itemtype="http://schema.org/Person">
-                        I'm <span itemprop="name">Mălin Brândușe</span>, a {{getAge('1997/11/13')}}yr old
-                    <span itemprop="jobTitle">Web Developer</span> from <span itemprop="workLocation">Romania</span>
-                    </p>
+                        <p itemprop="author" itemscope itemtype="http://schema.org/Person">
+                            I'm <span itemprop="name">Mălin Brândușe</span>, a {{getAge('1997/11/13')}}yr old
+                        <span itemprop="jobTitle">Web Developer</span> from <span itemprop="workLocation">Romania</span>
+                        </p>
 
 
-                    <div class="arrow bounce">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="451.847" height="451.847" viewBox="0 0 451.847 451.847"><path d="M225.923 354.706c-8.098 0-16.195-3.092-22.37-9.263L9.27 151.157c-12.36-12.36-12.36-32.397 0-44.75 12.354-12.355 32.388-12.355 44.748 0L225.923 278.32 397.83 106.413c12.358-12.354 32.39-12.354 44.743 0 12.365 12.354 12.365 32.392 0 44.75L248.293 345.45c-6.178 6.17-14.275 9.256-22.37 9.256z"/></svg>
+                        <div class="arrow bounce">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="451.847" height="451.847" viewBox="0 0 451.847 451.847"><path d="M225.923 354.706c-8.098 0-16.195-3.092-22.37-9.263L9.27 151.157c-12.36-12.36-12.36-32.397 0-44.75 12.354-12.355 32.388-12.355 44.748 0L225.923 278.32 397.83 106.413c12.358-12.354 32.39-12.354 44.743 0 12.365 12.354 12.365 32.392 0 44.75L248.293 345.45c-6.178 6.17-14.275 9.256-22.37 9.256z"/></svg>
+                        </div>
                     </div>
                 </div>
+            </header>
+
+            <!--<div class="white" v-show="isLoaded">-->
+            <div class="white">
+                <section class="content-wrapper">
+                    <app-content></app-content>
+                </section>
             </div>
-        </header>
 
-        <div class="white" v-show="isLoaded">
-            <section class="content-wrapper">
-                <app-content></app-content>
-            </section>
         </div>
-
     </div>
 </template>
 
@@ -72,7 +75,10 @@
     EventBus.$on('loaded', who => {
         Object.keys(expectedLoad).forEach( key => {
             expectedLoad[key] = who === key || expectedLoad[key];
-        })
+        });
+        if (Object.keys(expectedLoad).every( key => expectedLoad[key])) {
+            document.dispatchEvent(new Event('prerender'));
+        }
     });
 
     export default {
@@ -97,9 +103,7 @@
             }
         },
         computed: {
-            isLoaded: () =>
-                Object.keys(expectedLoad)
-                    .every( key => expectedLoad[key])
+            isLoaded: () => Object.keys(expectedLoad).every( key => expectedLoad[key])
         },
         created() {
             this.setSVG();
@@ -124,9 +128,6 @@
                     })
                     .catch(e => console.log(e));
                 this.$forceUpdate();
-            },
-            loaded(who) {
-
             },
             removeLoader() {
                 let loader = document.getElementById('loader');

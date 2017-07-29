@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 module.exports = {
     entry: './src/main.js',
@@ -75,7 +76,15 @@ if (process.env.NODE_ENV === 'production') {
             assetNameRegExp: /\.min\.css$/,
             cssProcessorOptions: { discardComments: { removeAll: true } }
 
-        })
+        }),
+        new PrerenderSpaPlugin(
+            path.join(__dirname, '/'),
+            [ '/' ],
+            {
+                captureAfterDocumentEvent: 'prerender'
+                //captureAfterElementExists: '.commit'
+            }
+        )
     ])
 } else {
     var fs = require('fs'),

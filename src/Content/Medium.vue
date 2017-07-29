@@ -65,10 +65,11 @@
                             readingTime: readingTime(doc.documentElement.textContent.replace(/\r?\n|\r/g, ''))
                         });
                     });
-
-                    EventBus.$emit('loaded', 'medium');
                 })
                 .catch(e => (console.log(e), EventBus.$emit('loaded', 'medium')));
+        },
+        updated() {
+            EventBus.$emit('loaded', 'medium');
         }
     }
 </script>

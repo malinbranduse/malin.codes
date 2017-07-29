@@ -64,9 +64,11 @@
                             date: timeago().format(r.data[0].commit.author.date)
                         });
                     });
-                    EventBus.$emit('loaded', 'github');
                 })
                 .catch(e => (console.log(e), EventBus.$emit('loaded', 'github')));
+        },
+        updated() {
+            EventBus.$emit('loaded', 'github');
         }
     }
 </script>
