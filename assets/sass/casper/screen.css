@@ -57,10 +57,16 @@ body {
     padding: 0 4vw;
 }
 
+@media(max-width: 600px) {
+    .outer {
+        padding: 0 8vw;
+    }
+}
+
 /* Centered content container blocks */
 .inner {
     width: 100%;
-    max-width: 1040px;
+    max-width: 930px;
     margin: 0 auto;
 }
 
@@ -112,7 +118,6 @@ body {
     left: 0;
     z-index: 10;
     display: block;
-    background: rgba(0,0,0,0.18);
 }
 
 .site-header:after {
@@ -125,7 +130,7 @@ body {
     z-index: 10;
     display: block;
     height: 80px;
-    background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0));
+    background: linear-gradient(rgba(0,0,0,0.07), rgba(0,0,0,0));
 }
 
 .site-header.no-cover:before,
@@ -225,10 +230,12 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     text-decoration: none;
 }
 
-.site-nav-logo img {
+.site-nav-logo img,
+.site-nav-logo svg {
     display: block;
     width: auto;
     height: 21px;
+    transform: translateY(-0.15rem);
 }
 
 .nav {
@@ -248,6 +255,8 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
 .nav li a {
     display: block;
     margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
     padding: 10px 12px;
     color: #fff;
     opacity: 0.8;
@@ -291,6 +300,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
 
 .social-link svg {
     height: 1.8rem;
+    max-width: 2rem;
     fill: #fff;
 }
 
@@ -1780,7 +1790,7 @@ Usage (In Ghost editor):
     padding-top: 20px;
     padding-bottom: 60px;
     color: #fff;
-    background: color(var(--darkgrey) l(-15%));
+    background: #3e4847;
 }
 
 .site-footer-content {

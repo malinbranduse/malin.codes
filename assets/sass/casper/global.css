@@ -3,7 +3,7 @@
 
 :root {
     /* Colours */
-    --blue: #3eb0ef;
+    --blue: #25c3b4;
     --green: #a4d037;
     --purple: #ad26b4;
     --yellow: #fecd35;
@@ -100,8 +100,89 @@ video {
     padding: 0;
     border: 0;
     font: inherit;
-    font-size: 100%;
+    font-size: 98%;
     vertical-align: baseline;
+}
+@media(max-width: 600px) {
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+        font-size: 96%;
+    }
 }
 body {
     line-height: 1;
@@ -309,7 +390,7 @@ hr {
     padding: 0;
     height: 1px;
     border: 0;
-    border-top: 1px solid color(var(--lightgrey) l(+10%));
+    border-top: 1px solid #dcdcdc;
 }
 
 audio,

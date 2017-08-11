@@ -14,7 +14,7 @@ export default function() {
     c.width = w*pr
     c.height = h*pr
     x.scale(pr, pr)
-    x.globalAlpha = 0.3
+    x.globalAlpha = 0.32
     function i(){
         x.clearRect(0,0,w,h)
         q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
@@ -29,7 +29,7 @@ export default function() {
         x.lineTo(k, n)
         x.closePath()
         r-=u/-50
-        x.fillStyle = '#'+(v(r)*127+128<<16 | v(r+u/3)*127+128<<8 | v(r+u/3*2)*127+128).toString(16)
+        x.fillStyle = '#'+(v(r)*127+100<<16 | v(r+u/3)*127+100<<8 | v(r+u/3*2)*127+100).toString(16)
         x.fill()
         q[0] = q[1]
         q[1] = {x:k,y:n}
