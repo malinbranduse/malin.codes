@@ -17,6 +17,11 @@
     {{!-- This tag outputes SEO meta+structured data and other important settings --}}
     {{ghost_head}}
 
+    {{#is "home"}}
+        <meta property="og:image" content="{{asset "img/banner.jpg"}}" />
+        <meta property="twitter:image" content="{{asset "img/banner.jpg"}}" />
+    {{/is}}
+
 </head>
 <body class="{{body_class}}">
 
