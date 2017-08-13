@@ -22,7 +22,7 @@ module.exports = {
 
         // output file for production
         path: __dirname + "/assets/build/",
-        filename: "index.min.js"
+        filename: "index.js"
 
     },
 
@@ -77,18 +77,18 @@ module.exports = {
 
             new webpack.optimize.ModuleConcatenationPlugin(),
 
-            new ExtractTextPlugin('styles.min.css'),
+            new ExtractTextPlugin('styles.css'),
 
             new webpack.optimize.UglifyJsPlugin({
 
                 compress: { warnings: false },
-                include: /\.min\.js$/
+                include: /\.js$/
 
             }),
 
             new OptimizeCssAssetsPlugin({
 
-                assetNameRegExp: /\.min\.css$/,
+                assetNameRegExp: /\.css$/,
                 cssProcessorOptions: { discardComments: { removeAll: true } }
 
             })
