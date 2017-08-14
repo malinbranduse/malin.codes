@@ -1134,8 +1134,8 @@ Usage (In Ghost editor):
 .author-card-button {
     display: block;
     padding: 9px 16px;
-    border: color(var(--midgrey) l(+20%)) 1px solid;
-    color: var(--midgrey);
+    border: 1px solid #424242;
+    color: #424242;
     font-size: 1.2rem;
     line-height: 1;
     font-weight: 500;
@@ -1144,8 +1144,8 @@ Usage (In Ghost editor):
 }
 
 .author-card-button:hover {
-    border-color: var(--blue);
-    color: var(--blue);
+    border-color: #69e8db;
+    color: #424242;
     text-decoration: none;
 }
 
