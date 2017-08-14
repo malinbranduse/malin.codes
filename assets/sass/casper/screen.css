@@ -753,7 +753,7 @@ Usage (In Ghost editor):
     margin: 0 0 1.5em 0;
     padding: 1.5em 0;
     border: 0;
-    color: var(--blue);
+    color: #00837A;
     font-size: 3rem;
     line-height: 1.6em;
     text-align: center;
@@ -792,11 +792,10 @@ Usage (In Ghost editor):
     overflow-x: auto;
     margin: 1.5em 0 3em;
     padding: 20px;
-    border: color(var(--darkgrey) l(-10%)) 1px solid;
     color: var(--whitegrey);
     font-size: 1.4rem;
     line-height: 1.5em;
-    background: color(var(--darkgrey) l(-3%));
+    background: #0e0f11;
     border-radius: 5px;
 }
 
