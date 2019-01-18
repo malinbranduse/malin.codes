@@ -3,7 +3,7 @@
 
 :root {
     /* Colours */
-    --blue: #3eb0ef;
+    --blue: #25c3b4;
     --green: #a4d037;
     --purple: #ad26b4;
     --yellow: #fecd35;
@@ -297,7 +297,7 @@ body {
 
 ::selection {
     text-shadow: none;
-    background: color(var(--blue) lightness(+30%));
+    background: #69e8db;
 }
 
 hr {
@@ -308,7 +308,7 @@ hr {
     padding: 0;
     height: 1px;
     border: 0;
-    border-top: 1px solid color(var(--lightgrey) l(+10%));
+    border-top: 1px solid #dcdcdc;
 }
 
 audio,
