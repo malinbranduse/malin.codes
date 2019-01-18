@@ -2,74 +2,74 @@
 @import './casper/screen.css'
 
 .site-header
-	transform: translate3d(0,0,0)
-	-moz-transform: translate3d(0,0,0)
-	-webkit-transform: translate3d(0,0,0)
-	+main-bg(#69e8db, #2ce8fb)
+  transform: translate3d(0,0,0)
+  -moz-transform: translate3d(0,0,0)
+  -webkit-transform: translate3d(0,0,0)
+  +main-bg(#69e8db, #2ce8fb)
 
-	canvas
-		position: absolute
-		top: 0
-		left: 0
-		width: 100%
-		height: 100%
-		pointer-events: none
+  canvas
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    pointer-events: none
 
-	&.inverted
-		background: #fff
+  &.inverted
+    background: #fff
 
-		.nav li a
-			color: #424242
+    .nav li a
+      color: #424242
 
-		.social-link svg, .rss-button svg
-			fill: #27a09f
+    .social-link svg, .rss-button svg
+      fill: #27a09f
 
 
 .site-description
-	color: #00837A
-	font-weight: 500
+  color: #00837A
+  font-weight: 500
 
 .nav
-	li
-		a
-			color: #00837A
+  li
+    a
+      color: #00837A
 
 .about
-	+main-bg(#69e8db, #2ce8fb)
+  +main-bg(#69e8db, #2ce8fb)
 
-	.post-full-content
-		padding: 70px 0 30px
-		background: initial
+  .post-full-content
+    padding: 70px 0 30px
+    background: initial
 
-		@media (max-width: 1170px)
-    		padding: 10vw 0 0
+    @media (max-width: 1170px)
+      padding: 10vw 0 0
 
-	h1, h2, h3
-		color: #424242
-		font-family: Georgia, serif
+  h1, h2, h3
+    color: #424242
+    font-family: Georgia, serif
 
-	p
-		color: #424242
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+  p
+    color: #424242
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
 
-	img
-		&[src$="#me"]
-			width: 100px
-			height: 100px
-			border-radius: 5px
-			overflow: hidden
+  img
+    &[src$="#me"]
+      width: 100px
+      height: 100px
+      border-radius: 5px
+      overflow: hidden
 
-		display: inline-block
-		width: 27px
-		height: auto
-		margin: 0
-		margin-right: 5px
+    display: inline-block
+    width: 27px
+    height: auto
+    margin: 0
+    margin-right: 5px
 
 .post-card-date
-	font-size: 12px
-	font-weight: 900
-	text-transform: uppercase
-	opacity: 0.8
-	margin-bottom: 30px
+  font-size: 12px
+  font-weight: 900
+  text-transform: uppercase
+  opacity: 0.8
+  margin-bottom: 30px
 
 

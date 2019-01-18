@@ -49,7 +49,7 @@ into the {body} of the default.hbs template --}}
 
             <footer class="post-full-footer">
                 {{!-- Everything inside the #author tags pulls data from the author --}}
-                {{#author}}
+                {{#primary_author}}
 
                 <section class="author-card">
                     {{#if profile_image}}
@@ -68,7 +68,7 @@ into the {body} of the default.hbs template --}}
                     <a class="author-card-button" href="/about">Read More</a>
                 </div>
 
-                {{/author}}
+                {{/primary_author}}
             </footer>
 
 

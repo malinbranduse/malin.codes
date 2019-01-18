@@ -1,6 +1,7 @@
 {
   "name": "malin-codes",
   "description": "Mălin's website",
+  "keywords": ["ghost-theme", "blog"],
   "version": "1.0.0",
   "engines": {
     "ghost": ">=1.5.0"

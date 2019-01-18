@@ -1,25 +1,25 @@
 =main-bg($color1, $color2)
-    background: $color1 /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, $color1, $color2) /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, $color1, $color2) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: $color1 /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, $color1, $color2) /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, $color1, $color2) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-    background-size: 400% 400%
+  background-size: 400% 400%
 
-    -webkit-animation: gradientAnimation 9s ease infinite
-    animation: gradientAnimation 9s ease infinite
+  -webkit-animation: gradientAnimation 9s ease infinite
+  animation: gradientAnimation 9s ease infinite
 
-    @-webkit-keyframes gradientAnimation
-        0%
-            background-position: 0% 82%
-        50%
-            background-position: 100% 19%
-        100%
-            background-position: 0% 82%
-        
-    @keyframes gradientAnimation
-        0%
-            background-position: 0% 82%
-        50%
-            background-position: 100% 19%
-        100%
-            background-position: 0% 82%
+  @-webkit-keyframes gradientAnimation
+    0%
+      background-position: 0% 82%
+    50%
+      background-position: 100% 19%
+    100%
+      background-position: 0% 82%
+
+  @keyframes gradientAnimation
+    0%
+      background-position: 0% 82%
+    50%
+      background-position: 100% 19%
+    100%
+      background-position: 0% 82%
