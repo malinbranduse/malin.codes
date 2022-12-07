@@ -32,7 +32,7 @@
 {{#post}}
     <header class="main-header">
         <nav class="blog-title">
-            <a href="{{@blog.url}}" title="{{@blog.title}}">{{> "icons/logo-long"}}</a>
+            <a href="{{@site.url}}" title="{{@site.title}}">{{> "icons/logo-long"}}</a>
         </nav>
     </header>
 
@@ -60,7 +60,7 @@
     </main>
 {{/post}}
 <footer class="site-footer clearfix">
-    <section class="copyright"><a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
+    <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
 </footer>
 </body>
 </html>

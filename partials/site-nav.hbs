@@ -1,13 +1,13 @@
 <nav class="site-nav">
     <div class="site-nav-left">
         {{^is "home"}}
-            {{#if @blog.logo}}
-                <a class="site-nav-logo" href="{{@blog.url}}">{{> "icons/logo-long"}}</a>
+            {{#if @site.logo}}
+                <a class="site-nav-logo" href="{{@site.url}}">{{> "icons/logo-long"}}</a>
             {{else}}
-                <a class="site-nav-logo" href="{{@blog.url}}">{{@blog.title}}</a>
+                <a class="site-nav-logo" href="{{@site.url}}">{{@site.title}}</a>
             {{/if}}
         {{/is}}
-        {{#if @blog.navigation}}
+        {{#if @site.navigation}}
             {{navigation}}
         {{/if}}
     </div>
